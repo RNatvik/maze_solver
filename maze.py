@@ -13,7 +13,6 @@ class Maze:
 
         self.start = None
         self.end = None
-        #### Testing ####
         self.nodes = []
 
         # Find the start node
@@ -21,7 +20,6 @@ class Maze:
             if data[x] == 1:
                 self.start = Node((x, 0))
                 topNodes[x] = self.start
-                #### Testing ####
                 self.nodes.append(self.start)
                 break
 
@@ -62,7 +60,6 @@ class Maze:
                                 topNodes[x] = node
 
                             leftNode = node
-                            #### Testing ####
                             self.nodes.append(node)
 
                     # WALL PATH PATH (start of corridor)
@@ -79,7 +76,6 @@ class Maze:
                             topNodes[x] = node
 
                         leftNode = node
-                        #### Testing ####
                         self.nodes.append(node)
 
                     # PATH PATH WALL (end of corridor)
@@ -94,7 +90,6 @@ class Maze:
 
                         if below == 1:
                             topNodes[x] = node
-                        #### Testing ####
                         self.nodes.append(node)
 
                     # WALL PATH WALL
@@ -109,9 +104,8 @@ class Maze:
                                 node.addConnection(Node.up, topNodes[x])
                             elif below == 1:
                                 topNodes[x] = node
-
-                            #### Testing ####
                             self.nodes.append(node)
+
                 previousX = currentX
 
         # Find the end node
@@ -121,7 +115,11 @@ class Maze:
             if data[index] == 1:
                 self.end = Node((x, height - 1))
                 self.end.addConnection(Node.up, topNodes[x])
-                #### Testing ####
                 self.nodes.append(self.end)
                 break
+
+        # Set distance to end for all nodes
+        for n in self.nodes:
+            n.setDistanceToEnd(self.end)
+        self.end.distanceToEnd = 0
 

@@ -1,0 +1,37 @@
+run 1:
+
+Opening image...
+Analyzing image and creating nodes...
+Maze creation time: 0.1259455680847168
+Number of nodes: 27296
+Solving...
+Solve time: 132.499103307724
+
+Path length: 1008
+Saving Image
+Image saved in mazes/result/ as 2018-06-20 21:38:16.186174.png
+
+
+run 2:
+Opening image...
+Analyzing image and creating nodes...
+Maze creation time: 0.12338709831237793
+Number of nodes: 27296
+Solving...
+Solve time: 130.21049737930298
+
+Path length: 1008
+Saving Image
+Image saved in mazes/result/ as 2018-06-20 21:41:04.299452.png
+
+run 3:
+Opening image...
+Analyzing image and creating nodes...
+Maze creation time: 0.12064504623413086
+Number of nodes: 27296
+Solving...
+Solve time: 131.82682514190674
+
+Path length: 1008
+Saving Image
+Image saved in mazes/result/ as 2018-06-20 21:43:38.172608.png

@@ -2,7 +2,6 @@
 # then adding the pixel distance to the next node IN THE NEXT NODE
 # To retrace, take the end node, and go to the connection with the shortest distance to start. Repeat until distance to
 # start == 0
-from maze import Maze
 from node import Node
 
 
@@ -63,6 +62,7 @@ def solve(maze):
         priorityQueue.remove(currentNode)
         priorityQueue.sort()
 
+
     path = []
     pathNode = end
     path.append(pathNode)
@@ -71,6 +71,10 @@ def solve(maze):
         connections = list(pathNode.Connections)
         while None in connections:
             connections.remove(None)
+        # Set distance to end in relevant nodes to 0, as the goal is to find shortest path to start
+        for connection in connections:
+            a = 1 # this is for debug purpose
+            connection.distanceToEnd = 0
         connections.sort()
         pathNode = connections[0]
         path.append(pathNode)

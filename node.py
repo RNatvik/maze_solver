@@ -1,3 +1,6 @@
+import math
+
+
 class Node:
 
     left = 0
@@ -9,6 +12,13 @@ class Node:
         self.Position = position
         self.Connections = [None] * 4
         self.distanceToStart = None
+        self.distanceToEnd = None
+
+    def setDistanceToEnd(self, endNode):
+        x = math.pow(endNode.Position[0] - self.Position[0], 2)
+        y = math.pow(endNode.Position[1] - self.Position[1], 2)
+        self.distanceToEnd = int(math.sqrt(x + y))
+
 
     # Direction is an integer 0-3 (inclusive), 0 is left, 1 is down, 2 is right, 3 is up
     # Can also use Node.left, Node.right, Node.up, and Node.down to indicate direction
@@ -31,9 +41,13 @@ class Node:
     def __lt__(self, other):
         selfDistance = self.distanceToStart
         otherDistance = other.distanceToStart
-        if selfDistance is None:
-            selfDistance = 1000000000
-        if otherDistance is None:
-            otherDistance = 1000000000
+        if (selfDistance is not None) and (otherDistance is not None):
+            selfDistance += self.distanceToEnd
+            otherDistance += other.distanceToEnd
+        else:
+            if selfDistance is None:
+                selfDistance = 1000000000
+            if otherDistance is None:
+                otherDistance = 1000000000
         return selfDistance < otherDistance
 

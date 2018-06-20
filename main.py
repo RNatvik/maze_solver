@@ -43,7 +43,7 @@ def main():
     print("Opening image...")
 
     # TODO, make image dependent on argument
-    image = Image.open("mazes/braid200.png")
+    image = Image.open("mazes/combo400.png")
 
     print("Analyzing image and creating nodes...")
     startTime = time.time()
@@ -59,11 +59,11 @@ def main():
     endTime = time.time()
     totalTime = endTime - startTime
     print("Solve time:", totalTime)
-
-    # TODO, make this segment dependent on arguments
-    print("\nPath:")
-    for node in path:
-        print(node.Position)
+    #
+    # # TODO, make this segment dependent on arguments
+    # print("\nPath:")
+    # for node in path:
+    #     print(node.Position)
 
     print("\nPath length:", maze.end.distanceToStart)
 
