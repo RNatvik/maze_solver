@@ -7,6 +7,7 @@ class Node:
     down = 1
     right = 2
     up = 3
+    weight = 1
 
     def __init__(self, position):
         self.Position = position
@@ -19,9 +20,7 @@ class Node:
         y = math.pow(endNode.Position[1] - self.Position[1], 2)
         self.distanceToEnd = int(math.sqrt(x + y))
 
-
-    # Direction is an integer 0-3 (inclusive), 0 is left, 1 is down, 2 is right, 3 is up
-    # Can also use Node.left, Node.right, Node.up, and Node.down to indicate direction
+    # use Node.left, Node.right, Node.up, and Node.down to indicate direction
     def addConnection(self, direction, node):
         self.Connections[direction] = node
 
@@ -42,8 +41,8 @@ class Node:
         selfDistance = self.distanceToStart
         otherDistance = other.distanceToStart
         if (selfDistance is not None) and (otherDistance is not None):
-            selfDistance += self.distanceToEnd
-            otherDistance += other.distanceToEnd
+            selfDistance += int(self.distanceToEnd * Node.weight)
+            otherDistance += int(other.distanceToEnd * Node.weight)
         else:
             if selfDistance is None:
                 selfDistance = 1000000000

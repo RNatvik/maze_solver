@@ -62,7 +62,6 @@ def solve(maze):
         priorityQueue.remove(currentNode)
         priorityQueue.sort()
 
-
     path = []
     pathNode = end
     path.append(pathNode)
@@ -73,7 +72,6 @@ def solve(maze):
             connections.remove(None)
         # Set distance to end in relevant nodes to 0, as the goal is to find shortest path to start
         for connection in connections:
-            a = 1 # this is for debug purpose
             connection.distanceToEnd = 0
         connections.sort()
         pathNode = connections[0]
