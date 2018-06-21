@@ -1,39 +1,25 @@
-run 1: (braid200.png)
-Opening image...
-Analyzing image and creating nodes...
-Maze creation time: 0.027873516082763672
+run 1: weight = 0
+
+Maze creation time: 0.027719974517822266
 Number of nodes: 6309
 Solving...
-Solve time: 9.162432432174683
+Solve time: 10.524620056152344
 
 Path length: 596
-Saving Image
-Image saved in mazes/result/ as 2018-06-20 21:33:38.331634.png
 
-
-run 2: (braid200.png)
-
-Opening image...
-Analyzing image and creating nodes...
-Maze creation time: 0.026763439178466797
+run 2: weight = 2
+Maze creation time: 0.03271150588989258
 Number of nodes: 6309
 Solving...
-Solve time: 9.01981806755066
+Solve time: 5.624284029006958
 
 Path length: 596
-Saving Image
-Image saved in mazes/result/ as 2018-06-20 21:34:24.752269.png
 
 
-run 3: (braid200.png)
-
-Opening image...
-Analyzing image and creating nodes...
-Maze creation time: 0.02789306640625
+run 3: weight = 2, PQ reworked to append nodes under consideration
+Maze creation time: 0.027863502502441406
 Number of nodes: 6309
 Solving...
-Solve time: 9.143008470535278
+Solve time: 2.1905200481414795
 
 Path length: 596
-Saving Image
-Image saved in mazes/result/ as 2018-06-20 21:35:04.526469.png

@@ -1,37 +1,55 @@
-run 1:
+run 1: weight = 2, PQ was altered
+Could not complete run. The debugger shows that the number of visited nodes was more than nodes in the maze. Something
+must therefore be wrong.
 
-Opening image...
-Analyzing image and creating nodes...
-Maze creation time: 0.1259455680847168
+
+run 2: weight = 0, simpleSolver was reworked with regards to PQ logic
+Maze creation time: 0.1183481216430664
 Number of nodes: 27296
 Solving...
-Solve time: 132.499103307724
+Solve time: 91.26790404319763
 
-Path length: 1008
-Saving Image
-Image saved in mazes/result/ as 2018-06-20 21:38:16.186174.png
+Path length: 1008.0
+Notes: This is the best length possible, and the solve time went from 180+ sec with weight = 0 to 90+ seconds
+        Still, this is rather slow. Tweaks to weight should reduce solve time
 
 
-run 2:
-Opening image...
-Analyzing image and creating nodes...
-Maze creation time: 0.12338709831237793
+run 3: weight = 1
+Maze creation time: 0.12130475044250488
 Number of nodes: 27296
 Solving...
-Solve time: 130.21049737930298
+Solve time: 45.17142653465271
 
-Path length: 1008
-Saving Image
-Image saved in mazes/result/ as 2018-06-20 21:41:04.299452.png
+Path length: 1008.0
+Notes: The modified weight seems to have halved the solve duration without reducing path accuracy
 
-run 3:
-Opening image...
-Analyzing image and creating nodes...
-Maze creation time: 0.12064504623413086
+
+run 4: weight = 2
+Maze creation time: 0.1194162368774414
 Number of nodes: 27296
 Solving...
-Solve time: 131.82682514190674
+Solve time: 12.208876371383667
 
-Path length: 1008
-Saving Image
-Image saved in mazes/result/ as 2018-06-20 21:43:38.172608.png
+Path length: 1012.0
+Notes: The path is not the ideal path anymore, but the error is small and time has went from 91 to 12 sec
+
+
+run 5: weight = 1.8
+Maze creation time: 0.11868691444396973
+Number of nodes: 27296
+Solving...
+Solve time: 17.721291542053223
+
+Path length: 1012.0
+Notes: slower, same accuracy, will reduce more
+
+
+run 6: weight = 1.5
+Maze creation time: 0.11713814735412598
+Number of nodes: 27296
+Solving...
+Solve time: 26.367286920547485
+
+Path length: 1008.0
+Notes: better accuracy, a bit too slow. Will attempt to modify solve method to after finding a path,
+        remove the weight of distance to end.

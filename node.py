@@ -7,7 +7,7 @@ class Node:
     down = 1
     right = 2
     up = 3
-    weight = 1
+    weight = 2
 
     def __init__(self, position):
         self.Position = position

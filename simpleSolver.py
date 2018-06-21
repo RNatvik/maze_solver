@@ -2,64 +2,53 @@
 # then adding the pixel distance to the next node IN THE NEXT NODE
 # To retrace, take the end node, and go to the connection with the shortest distance to start. Repeat until distance to
 # start == 0
-from node import Node
+import math
 
 
 def solve(maze):
-
     start = maze.start
     end = maze.end
-    nodes = maze.nodes
     visitedNodes = []
     start.distanceToStart = 0
-    priorityQueue = list(nodes)
-    priorityQueue.sort()
+    priorityQueue = []
+    priorityQueue.append(start)
 
     while priorityQueue[0] != end:
-        currentNode = priorityQueue[0]
+        while priorityQueue[0] != end:
+            currentNode = priorityQueue[0]
+            currentConnections = list(currentNode.Connections)
+            while None in currentConnections:
+                currentConnections.remove(None)
+            for nextNode in currentConnections:
+                if not visitedNodes.__contains__(nextNode):
 
-        if currentNode.Connections[Node.left] is not None:
-            if not visitedNodes.__contains__(currentNode.Connections[Node.left]):
-                nextNode = currentNode.Connections[Node.left]
-                distance = currentNode.Position[0] - nextNode.Position[0] + currentNode.distanceToStart
-                if nextNode.distanceToStart is None:
-                    nextNode.distanceToStart = distance
-                else:
-                    if nextNode.distanceToStart > distance:
+                    distance = 0
+
+                    if nextNode.Position[0] == currentNode.Position[0]:  # X equal, vertical line
+                        # Calculates the square root of the difference between current and next Y squared
+                        distance = math.sqrt(math.pow((nextNode.Position[1] - currentNode.Position[1]), 2))
+                        distance += currentNode.distanceToStart
+
+                    elif nextNode.Position[1] == currentNode.Position[1]:  # Y equal, horizontal line
+                        # Calculates the square root of the difference between current and next Y squared
+                        distance = math.sqrt(math.pow((nextNode.Position[0] - currentNode.Position[0]), 2))
+                        distance += currentNode.distanceToStart
+
+                    if priorityQueue.__contains__(nextNode):
+                        if nextNode.distanceToStart > distance:
+                            nextNode.distanceToStart = distance
+
+                    else:
                         nextNode.distanceToStart = distance
+                        priorityQueue.append(nextNode)
 
-        if currentNode.Connections[Node.right] is not None:
-            if not visitedNodes.__contains__(currentNode.Connections[Node.right]):
-                nextNode = currentNode.Connections[Node.right]
-                distance = nextNode.Position[0] - currentNode.Position[0] + currentNode.distanceToStart
-                if nextNode.distanceToStart is None:
-                    nextNode.distanceToStart = distance
-                else:
-                    if nextNode.distanceToStart > distance:
-                        nextNode.distanceToStart = distance
+            visitedNodes.append(currentNode)
+            priorityQueue.remove(currentNode)
+            priorityQueue.sort()
 
-        if currentNode.Connections[Node.up] is not None:
-            if not visitedNodes.__contains__(currentNode.Connections[Node.up]):
-                nextNode = currentNode.Connections[Node.up]
-                distance = currentNode.Position[1] - nextNode.Position[1] + currentNode.distanceToStart
-                if nextNode.distanceToStart is None:
-                    nextNode.distanceToStart = distance
-                else:
-                    if nextNode.distanceToStart > distance:
-                        nextNode.distanceToStart = distance
-
-        if currentNode.Connections[Node.down] is not None:
-            if not visitedNodes.__contains__(currentNode.Connections[Node.down]):
-                nextNode = currentNode.Connections[Node.down]
-                distance = nextNode.Position[1] - currentNode.Position[1] + currentNode.distanceToStart
-                if nextNode.distanceToStart is None:
-                    nextNode.distanceToStart = distance
-                else:
-                    if nextNode.distanceToStart > distance:
-                        nextNode.distanceToStart = distance
-
-        visitedNodes.append(currentNode)
-        priorityQueue.remove(currentNode)
+        # Removes the distance to end after finding it, to make sure we find the shortest path
+        for node in priorityQueue:
+            node.distanceToEnd = 0
         priorityQueue.sort()
 
     path = []
@@ -79,4 +68,3 @@ def solve(maze):
 
     path.sort()
     return path
-
