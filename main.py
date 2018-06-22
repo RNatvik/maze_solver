@@ -43,7 +43,7 @@ def main():
     print("Opening image...")
 
     # TODO, make image dependent on argument
-    image = Image.open("mazes/combo400.png")
+    image = Image.open("mazes/perfect2k.png")
 
     print("Analyzing image and creating nodes...")
     startTime = time.time()

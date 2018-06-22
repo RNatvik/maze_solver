@@ -14,41 +14,35 @@ def solve(maze):
     priorityQueue.append(start)
 
     while priorityQueue[0] != end:
-        while priorityQueue[0] != end:
-            currentNode = priorityQueue[0]
-            currentConnections = list(currentNode.Connections)
-            while None in currentConnections:
-                currentConnections.remove(None)
-            for nextNode in currentConnections:
-                if not visitedNodes.__contains__(nextNode):
+        currentNode = priorityQueue[0]
+        currentConnections = list(currentNode.Connections)
+        while None in currentConnections:
+            currentConnections.remove(None)
+        for nextNode in currentConnections:
+            if not visitedNodes.__contains__(nextNode):
 
-                    distance = 0
+                distance = 0
 
-                    if nextNode.Position[0] == currentNode.Position[0]:  # X equal, vertical line
-                        # Calculates the square root of the difference between current and next Y squared
-                        distance = math.sqrt(math.pow((nextNode.Position[1] - currentNode.Position[1]), 2))
-                        distance += currentNode.distanceToStart
+                if nextNode.Position[0] == currentNode.Position[0]:  # X equal, vertical line
+                    # Calculates the square root of the difference between current and next Y squared
+                    distance = math.sqrt(math.pow((nextNode.Position[1] - currentNode.Position[1]), 2))
+                    distance += currentNode.distanceToStart
 
-                    elif nextNode.Position[1] == currentNode.Position[1]:  # Y equal, horizontal line
-                        # Calculates the square root of the difference between current and next Y squared
-                        distance = math.sqrt(math.pow((nextNode.Position[0] - currentNode.Position[0]), 2))
-                        distance += currentNode.distanceToStart
+                elif nextNode.Position[1] == currentNode.Position[1]:  # Y equal, horizontal line
+                    # Calculates the square root of the difference between current and next Y squared
+                    distance = math.sqrt(math.pow((nextNode.Position[0] - currentNode.Position[0]), 2))
+                    distance += currentNode.distanceToStart
 
-                    if priorityQueue.__contains__(nextNode):
-                        if nextNode.distanceToStart > distance:
-                            nextNode.distanceToStart = distance
-
-                    else:
+                if priorityQueue.__contains__(nextNode):
+                    if nextNode.distanceToStart > distance:
                         nextNode.distanceToStart = distance
-                        priorityQueue.append(nextNode)
 
-            visitedNodes.append(currentNode)
-            priorityQueue.remove(currentNode)
-            priorityQueue.sort()
+                else:
+                    nextNode.distanceToStart = distance
+                    priorityQueue.append(nextNode)
 
-        # Removes the distance to end after finding it, to make sure we find the shortest path
-        for node in priorityQueue:
-            node.distanceToEnd = 0
+        visitedNodes.append(currentNode)
+        priorityQueue.remove(currentNode)
         priorityQueue.sort()
 
     path = []
