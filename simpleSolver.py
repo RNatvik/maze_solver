@@ -3,26 +3,40 @@
 # To retrace, take the end node, and go to the connection with the shortest distance to start. Repeat until distance to
 # start == 0
 import math
+import heapq
+
+import time
 
 
 def solve(maze):
+
     start = maze.start
     end = maze.end
     visitedNodes = []
     start.distanceToStart = 0
     priorityQueue = []
     priorityQueue.append(start)
+    heapq.heapify(priorityQueue)
+
+    TIME = 0
+    count0 = 0
+    count1 = 0
+    count2 = 0
 
     while priorityQueue[0] != end:
-        currentNode = priorityQueue[0]
+        count0 += 1
+        currentNode = heapq.heappop(priorityQueue)
         currentConnections = list(currentNode.Connections)
         while None in currentConnections:
             currentConnections.remove(None)
         for nextNode in currentConnections:
-            if not visitedNodes.__contains__(nextNode):
+            count1 += 1
+            # startTime = time.time()
+            if nextNode not in visitedNodes:
+                count2 += 1
+                startTime = time.time()
 
                 distance = 0
-
                 if nextNode.Position[0] == currentNode.Position[0]:  # X equal, vertical line
                     # Calculates the square root of the difference between current and next Y squared
                     distance = math.sqrt(math.pow((nextNode.Position[1] - currentNode.Position[1]), 2))
@@ -33,17 +47,20 @@ def solve(maze):
                     distance = math.sqrt(math.pow((nextNode.Position[0] - currentNode.Position[0]), 2))
                     distance += currentNode.distanceToStart
 
-                if priorityQueue.__contains__(nextNode):
+                if nextNode in priorityQueue:
                     if nextNode.distanceToStart > distance:
                         nextNode.distanceToStart = distance
 
                 else:
                     nextNode.distanceToStart = distance
-                    priorityQueue.append(nextNode)
+                    heapq.heappush(priorityQueue, nextNode)
+
+                endTime = time.time()
+                TIME += endTime - startTime
+            # endTime = time.time()
+            # TIME += endTime - startTime
 
         visitedNodes.append(currentNode)
-        priorityQueue.remove(currentNode)
-        priorityQueue.sort()
 
     path = []
     pathNode = end
@@ -61,4 +78,10 @@ def solve(maze):
         path.append(pathNode)
 
     path.sort()
+    print("TIME:", TIME)
+    print("While loop iterations:", count0)
+    print("Connections checked:", count1)
+    print("Not visited connections checked:", count2)
+    print("Visited nodes:", len(visitedNodes))
+    print("Prio queue length:", len(priorityQueue))
     return path

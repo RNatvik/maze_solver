@@ -43,7 +43,7 @@ def main():
     print("Opening image...")
 
     # TODO, make image dependent on argument
-    image = Image.open("mazes/perfect2k.png")
+    image = Image.open("mazes/combo400.png")
 
     print("Analyzing image and creating nodes...")
     startTime = time.time()
@@ -56,6 +56,7 @@ def main():
     print("Solving...")
     startTime = time.time()
     path = simpleSolver.solve(maze)
+
     endTime = time.time()
     totalTime = endTime - startTime
     print("Solve time:", totalTime)

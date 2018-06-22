@@ -7,7 +7,7 @@ class Node:
     down = 1
     right = 2
     up = 3
-    weight = 2
+    weight = 1
 
     def __init__(self, position):
         self.Position = position
@@ -45,8 +45,8 @@ class Node:
             otherDistance += int(other.distanceToEnd * Node.weight)
         else:
             if selfDistance is None:
-                selfDistance = 1000000000
+                selfDistance = 100000000
             if otherDistance is None:
-                otherDistance = 1000000000
+                otherDistance = 100000000
         return selfDistance < otherDistance
 
