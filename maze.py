@@ -13,14 +13,14 @@ class Maze:
 
         self.start = None
         self.end = None
-        self.nodes = []
+        self.nodes = set()
 
         # Find the start node
         for x in range(0, width):
             if data[x] == 1:
                 self.start = Node((x, 0))
                 topNodes[x] = self.start
-                self.nodes.append(self.start)
+                self.nodes.add(self.start)
                 break
 
         for y in range(1, height - 1):
@@ -51,16 +51,16 @@ class Maze:
                         below = data[index + width]
                         if (below == 1) or (above == 1):
                             node = Node((x, y))
-                            node.addConnection(Node.left, leftNode)
+                            node.addConnection(leftNode)
 
                             if above == 1:
-                                node.addConnection(Node.up, topNodes[x])
+                                node.addConnection(topNodes[x])
 
                             if below == 1:
                                 topNodes[x] = node
 
                             leftNode = node
-                            self.nodes.append(node)
+                            self.nodes.add(node)
 
                     # WALL PATH PATH (start of corridor)
                     elif previousX == 0 and nextX == 1:
@@ -70,27 +70,27 @@ class Maze:
                         below = data[index + width]
 
                         if above == 1:
-                            node.addConnection(Node.up, topNodes[x])
+                            node.addConnection(topNodes[x])
 
                         if below == 1:
                             topNodes[x] = node
 
                         leftNode = node
-                        self.nodes.append(node)
+                        self.nodes.add(node)
 
                     # PATH PATH WALL (end of corridor)
                     elif previousX == 1 and nextX == 0:
                         node = Node((x, y))
-                        node.addConnection(Node.left, leftNode)
+                        node.addConnection(leftNode)
                         above = data[index - width]
                         below = data[index + width]
 
                         if above == 1:
-                            node.addConnection(Node.up, topNodes[x])
+                            node.addConnection(topNodes[x])
 
                         if below == 1:
                             topNodes[x] = node
-                        self.nodes.append(node)
+                        self.nodes.add(node)
 
                     # WALL PATH WALL
                     elif previousX == 0 and nextX == 0:
@@ -101,10 +101,10 @@ class Maze:
                             node = Node((x, y))
 
                             if above == 1:
-                                node.addConnection(Node.up, topNodes[x])
+                                node.addConnection(topNodes[x])
                             elif below == 1:
                                 topNodes[x] = node
-                            self.nodes.append(node)
+                            self.nodes.add(node)
 
                 previousX = currentX
 
@@ -114,8 +114,8 @@ class Maze:
             index = offset + x
             if data[index] == 1:
                 self.end = Node((x, height - 1))
-                self.end.addConnection(Node.up, topNodes[x])
-                self.nodes.append(self.end)
+                self.end.addConnection(topNodes[x])
+                self.nodes.add(self.end)
                 break
 
         # Set distance to end for all nodes
