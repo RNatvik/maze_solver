@@ -16,20 +16,17 @@ def solve(maze):
     priorityQueue.append(start)
     heapq.heapify(priorityQueue)
 
-    count0 = 0
-    count1 = 0
-    count2 = 0
+    consideredNodes = 0
 
     while priorityQueue[0] != end:
-        count0 += 1
         currentNode = heapq.heappop(priorityQueue)
         currentConnections = set(currentNode.Connections)
         while None in currentConnections:
             currentConnections.remove(None)
+
         for nextNode in currentConnections:
-            count1 += 1
             if nextNode not in visitedNodes:
-                count2 += 1
+                consideredNodes += 1
 
                 distance = 0
                 if nextNode.Position[0] == currentNode.Position[0]:  # X equal, vertical line
@@ -50,7 +47,6 @@ def solve(maze):
                     nextNode.distanceToStart = distance
                     heapq.heappush(priorityQueue, nextNode)
 
-
         visitedNodes.add(currentNode)
 
     path = []
@@ -69,9 +65,4 @@ def solve(maze):
         path.append(pathNode)
 
     path.sort()
-    print("While loop iterations:", count0)
-    print("Connections checked:", count1)
-    print("Not visited connections checked:", count2)
-    print("Visited nodes:", len(visitedNodes))
-    print("Prio queue length:", len(priorityQueue))
-    return path
+    return path, consideredNodes, len(visitedNodes)

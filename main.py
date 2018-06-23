@@ -55,7 +55,7 @@ def main():
 
     print("Solving...")
     startTime = time.time()
-    path = simpleSolver.solve(maze)
+    (path, consideredNodes, visitedNodes) = simpleSolver.solve(maze)
 
     endTime = time.time()
     totalTime = endTime - startTime
@@ -66,7 +66,10 @@ def main():
     # for node in path:
     #     print(node.Position)
 
-    print("\nPath length:", maze.end.distanceToStart)
+    print("\nVisited nodes:", visitedNodes)
+    print("Considered nodes:", consideredNodes)
+    print("Path pixel length:", maze.end.distanceToStart)
+    print("Path node length:", len(path))
 
     saveImage(image, path)
 
