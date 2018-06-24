@@ -7,7 +7,7 @@ import simpleSolver
 
 
 def saveImage(im, result, output_file):
-    print("\nSaving Image")
+    print("\nSaving Image...")
     im = im.convert('RGB')
     impixels = im.load()
 
@@ -43,38 +43,71 @@ def saveImage(im, result, output_file):
 
 
 def main(input_file, output_file, show_path):
-    print("Opening image...")
+    # work_state indicates which parts of the code is being executed
+    work_state = int()
 
-    image = Image.open(input_file)
+    try:
+        work_state = 0
+        print("Opening image...")
+        image = Image.open(input_file)
 
-    print("Analyzing image and creating nodes...")
-    startTime = time.time()
-    maze = Maze(image)
-    endTime = time.time()
-    totalTime = endTime - startTime
-    print("Maze creation time:", totalTime)
-    print("Number of nodes:", len(maze.nodes))
+        work_state = 1
+        print("Analyzing image and creating nodes...")
+        startTime = time.time()
+        maze = Maze(image)
+        endTime = time.time()
+        totalTime = endTime - startTime
+        print("Maze creation time:", totalTime)
+        print("Number of nodes:", len(maze.nodes))
 
-    print("Solving...")
-    startTime = time.time()
-    (path, consideredNodes, visitedNodes) = simpleSolver.solve(maze)
+        work_state = 2
+        print("Solving...")
+        startTime = time.time()
+        (path, consideredNodes, visitedNodes) = simpleSolver.solve(maze)
+        endTime = time.time()
+        totalTime = endTime - startTime
 
-    endTime = time.time()
-    totalTime = endTime - startTime
+        work_state = 3
+        if show_path is True:
+            print("\nPath:")
+            for node in path:
+                print(node.Position)
 
-    if show_path is True:
-        print("\nPath:")
-        for node in path:
-            print(node.Position)
+        work_state = 4
+        print("Solve time:", totalTime)
+        print("\nVisited nodes:", visitedNodes)
+        print("Considered nodes:", consideredNodes)
+        print("Path pixel length:", int(maze.end.distanceToStart))
+        print("Path node length:", len(path))
+        print("DTE Weight:", Node.weight)
 
-    print("Solve time:", totalTime)
-    print("\nVisited nodes:", visitedNodes)
-    print("Considered nodes:", consideredNodes)
-    print("Path pixel length:", int(maze.end.distanceToStart))
-    print("Path node length:", len(path))
-    print("DTE Weight:", Node.weight)
+        saveImage(image, path, output_file)
 
-    saveImage(image, path, output_file)
+    except AttributeError:
+        if work_state == 1:
+            print("Something went wrong when loading the maze to memory."
+                  "\n   Please make sure maze is of the proper format")
+        else:
+            print("An AttributeError has been raised unexpectedly... please contact support"
+                  "\n   work_state = " + str(work_state))
+
+    except FileNotFoundError:
+        if work_state == 0:
+            print("Input image was not found."
+                  "\n   Please make sure you have specified the right folder and file")
+        elif work_state == 4:
+            print("Output folder or file was not found"
+                  "\n   Please make sure you have specified a valid folder and have given the file the extension .png")
+        else:
+            print("A FileNotFoundError was raised unexpectedly... please contact support"
+                  "\n   work_state = " + str(work_state))
+
+    except IndexError:
+        if work_state == 2:
+            print("Maze has no solution")
+        else:
+            print("An unexpected IndexError was raised... please contact support"
+                  "\n   work_state = " + str(work_state))
 
 
 if __name__ == "__main__":
