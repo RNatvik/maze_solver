@@ -63,4 +63,4 @@ def solve(maze):
         path.append(path_node)
 
     path.sort()
-    return path, considered_nodes, len(visited_nodes)
+    return path, considered_nodes, visited_nodes
