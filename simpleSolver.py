@@ -10,59 +10,57 @@ def solve(maze):
 
     start = maze.start
     end = maze.end
-    visitedNodes = set()
-    start.distanceToStart = 0
-    priorityQueue = []
-    priorityQueue.append(start)
-    heapq.heapify(priorityQueue)
+    visited_nodes = set()
+    start.distance_to_start = 0
+    priority_queue = [start]
+    heapq.heapify(priority_queue)
 
-    consideredNodes = 0
+    considered_nodes = 0
 
-    while priorityQueue[0] != end:
-        currentNode = heapq.heappop(priorityQueue)
-        currentConnections = set(currentNode.Connections)
-        while None in currentConnections:
-            currentConnections.remove(None)
+    while priority_queue[0] != end:
+        current_node = heapq.heappop(priority_queue)
+        current_connections = set(current_node.connections)
+        while None in current_connections:
+            current_connections.remove(None)
 
-        for nextNode in currentConnections:
-            if nextNode not in visitedNodes:
-                consideredNodes += 1
+        for next_node in current_connections:
+            if next_node not in visited_nodes:
+                considered_nodes += 1
 
                 distance = 0
-                if nextNode.Position[0] == currentNode.Position[0]:  # X equal, vertical line
+                if next_node.position[0] == current_node.position[0]:  # X equal, vertical line
                     # Calculates the square root of the difference between current and next Y squared
-                    distance = math.sqrt(math.pow((nextNode.Position[1] - currentNode.Position[1]), 2))
-                    distance += currentNode.distanceToStart
+                    distance = math.sqrt(math.pow((next_node.position[1] - current_node.position[1]), 2))
+                    distance += current_node.distance_to_start
 
-                elif nextNode.Position[1] == currentNode.Position[1]:  # Y equal, horizontal line
+                elif next_node.position[1] == current_node.position[1]:  # Y equal, horizontal line
                     # Calculates the square root of the difference between current and next Y squared
-                    distance = math.sqrt(math.pow((nextNode.Position[0] - currentNode.Position[0]), 2))
-                    distance += currentNode.distanceToStart
+                    distance = math.sqrt(math.pow((next_node.position[0] - current_node.position[0]), 2))
+                    distance += current_node.distance_to_start
 
-                if nextNode in priorityQueue:
-                    if nextNode.distanceToStart > distance:
-                        nextNode.distanceToStart = distance
+                if next_node in priority_queue:
+                    if next_node.distance_to_start > distance:
+                        next_node.distance_to_start = distance
 
                 else:
-                    nextNode.distanceToStart = distance
-                    heapq.heappush(priorityQueue, nextNode)
+                    next_node.distance_to_start = distance
+                    heapq.heappush(priority_queue, next_node)
 
-        visitedNodes.add(currentNode)
+        visited_nodes.add(current_node)
 
-    path = []
-    pathNode = end
-    path.append(pathNode)
+    path_node = end
+    path = [path_node]
 
-    while pathNode != start:
-        connections = list(pathNode.Connections)
+    while path_node != start:
+        connections = list(path_node.connections)
         while None in connections:
             connections.remove(None)
         # Set distance to end in relevant nodes to 0, as the goal is to find shortest path to start
         for connection in connections:
-            connection.distanceToEnd = 0
+            connection.distance_to_end = 0
         connections.sort()
-        pathNode = connections[0]
-        path.append(pathNode)
+        path_node = connections[0]
+        path.append(path_node)
 
     path.sort()
-    return path, consideredNodes, len(visitedNodes)
+    return path, considered_nodes, len(visited_nodes)

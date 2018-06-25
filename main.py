@@ -6,18 +6,18 @@ from node import Node
 import simpleSolver
 
 
-def saveImage(im, result, output_file):
+def save_image(image, result, output_file):
     print("\nSaving Image...")
-    im = im.convert('RGB')
-    impixels = im.load()
+    image = image.convert('RGB')
+    image_pixels = image.load()
 
-    resultpath = [n.Position for n in result]
+    result_path = [n.position for n in result]
 
-    length = len(resultpath)
+    length = len(result_path)
 
     for i in range(0, length - 1):
-        a = resultpath[i]
-        b = resultpath[i + 1]
+        a = result_path[i]
+        b = result_path[i + 1]
 
         # Blue - red
         r = int((i / length) * 255)
@@ -26,20 +26,24 @@ def saveImage(im, result, output_file):
         if a[0] == b[0]:
             # X equal, vertical line
             for x in range(min(a[1], b[1]), max(a[1], b[1]) + 1):
-                impixels[a[0], x] = px
+                image_pixels[a[0], x] = px
         elif a[1] == b[1]:
             # Y equal, horizontal line
             for y in range(min(a[0], b[0]), max(a[0], b[0]) + 1):
-                impixels[y, a[1]] = px
+                image_pixels[y, a[1]] = px
 
-    im.save(output_file)
-    outputTree = output_file.split("/")
-    filename = outputTree[len(outputTree) - 1]
+    image.save(output_file)
+
+    output_tree = output_file.split("/")
+    filename = output_tree[len(output_tree) - 1]
     destination = ""
-    for i in range(len(outputTree) - 1):
-        destination += outputTree[i] + "/"
-
+    for i in range(len(output_tree) - 1):
+        destination += output_tree[i] + "/"
     print("Image saved in " + destination + " as " + filename)
+
+
+def paint_nodes(image, nodes):
+    pass
 
 
 def main(input_file, output_file, show_path):
@@ -53,35 +57,35 @@ def main(input_file, output_file, show_path):
 
         work_state = 1
         print("Analyzing image and creating nodes...")
-        startTime = time.time()
+        start_time = time.time()
         maze = Maze(image)
-        endTime = time.time()
-        totalTime = endTime - startTime
-        print("Maze creation time:", totalTime)
+        end_time = time.time()
+        total_time = end_time - start_time
+        print("Maze creation time:", total_time)
         print("Number of nodes:", len(maze.nodes))
 
         work_state = 2
         print("Solving...")
-        startTime = time.time()
-        (path, consideredNodes, visitedNodes) = simpleSolver.solve(maze)
-        endTime = time.time()
-        totalTime = endTime - startTime
+        start_time = time.time()
+        (path, considered_nodes, visited_nodes) = simpleSolver.solve(maze)
+        end_time = time.time()
+        total_time = end_time - start_time
 
         work_state = 3
-        if show_path is True:
+        if show_path:
             print("\nPath:")
             for node in path:
-                print(node.Position)
+                print(node.position)
 
-        work_state = 4
-        print("Solve time:", totalTime)
-        print("\nVisited nodes:", visitedNodes)
-        print("Considered nodes:", consideredNodes)
-        print("Path pixel length:", int(maze.end.distanceToStart))
+        print("Solve time:", total_time)
+        print("\nVisited nodes:", visited_nodes)
+        print("Considered nodes:", considered_nodes)
+        print("Path pixel length:", int(maze.end.distance_to_start))
         print("Path node length:", len(path))
         print("DTE Weight:", Node.weight)
 
-        saveImage(image, path, output_file)
+        work_state = 4
+        save_image(image, path, output_file)
 
     except AttributeError:
         if work_state == 1:
@@ -120,8 +124,9 @@ if __name__ == "__main__":
                         help="the output image file")
 
     parser.add_argument("--showPath",
+                        type=bool,
                         help="Print the path in terminal (default is False)",
-                        choices=["true", "false"])
+                        choices=[True, False])
 
     parser.add_argument("--weight",
                         type=int,
