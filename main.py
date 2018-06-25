@@ -156,8 +156,7 @@ if __name__ == "__main__":
         show_path = False
     if save_visited_nodes is None:
         save_visited_nodes = False
-    if weight is None:
-        weight = 1
+    if weight is not None:
+        Node.weight = weight
 
-    Node.weight = weight
     main(input_file, output_file, save_visited_nodes, show_path)

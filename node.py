@@ -3,7 +3,7 @@ import math
 
 class Node:
 
-    weight = 0
+    weight = 1
 
     def __init__(self, position):
         self.position = position
@@ -12,9 +12,9 @@ class Node:
         self.distance_to_end = None
 
     def set_distance_to_end(self, end_node):
-        x = math.pow(end_node.position[0] - self.position[0], 2)
-        y = math.pow(end_node.position[1] - self.position[1], 2)
-        self.distance_to_end = int(math.sqrt(x + y))
+        x = math.sqrt(math.pow((self.position[0] - end_node.position[0]), 2))
+        y = math.sqrt(math.pow((self.position[1] - end_node.position[1]), 2))
+        self.distance_to_end = x + y
 
     # use Node.left, Node.right, Node.up, and Node.down to indicate direction
     def add_connection(self, node):
