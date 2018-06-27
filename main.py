@@ -10,7 +10,6 @@ def save_image(image, result, output_file):
     print("\nSaving Image...")
     image = image.convert('RGB')
     image_pixels = image.load()
-
     result_path = [n.position for n in result]
 
     length = len(result_path)
@@ -143,7 +142,9 @@ if __name__ == "__main__":
 
     parser.add_argument("--weight",
                         type=float,
-                        help="A number indicating the weight of distance to end when prioritizing nodes (default is 1)")
+                        help="A number indicating the weight of distance to end when prioritizing nodes (default is 1)."
+                             "Tweaking this value above 1 might decrease solve time, but at the expense of making the "
+                             "end path not represent the shortest path")
 
     args = parser.parse_args()
     input_file = args.input
