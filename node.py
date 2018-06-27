@@ -7,7 +7,7 @@ class Node:
 
     def __init__(self, position):
         self.position = position
-        self.connections = set()
+        self.connections = list()
         self.distance_to_start = None
         self.distance_to_end = None
 
@@ -18,8 +18,8 @@ class Node:
 
     # use Node.left, Node.right, Node.up, and Node.down to indicate direction
     def add_connection(self, node):
-        self.connections.add(node)
-        node.connections.add(self)
+        self.connections.append(node)
+        node.connections.append(self)
 
     # This makes it so that when sorting a list of Node objects, they are listed in order of distance to start
     def __lt__(self, other):
