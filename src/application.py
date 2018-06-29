@@ -1,8 +1,7 @@
 from tkinter import *
 from tkinter import filedialog
-from scenes import MainScene, TestScene
-import generator
-import gui_solve
+from src.scenes import MainScene, TestScene
+from src import generator, gui_solve
 
 
 class Application:

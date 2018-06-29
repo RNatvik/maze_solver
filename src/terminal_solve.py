@@ -1,9 +1,9 @@
 from PIL import Image
 import time
 import argparse
-from maze import Maze
-from node import Node
-import simpleSolver
+from src.maze import Maze
+from src.node import Node
+from src import simpleSolver
 
 
 def save_image(image, result, output_file):

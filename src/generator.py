@@ -1,7 +1,7 @@
 # Start with an image as shown in generator_base.png
 # Use recursive backtracking
 from PIL import Image
-from node import Node
+from src.node import Node
 import random
 
 
