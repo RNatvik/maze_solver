@@ -10,6 +10,10 @@ def generate(width, height, output_file):
         width += 1
     if height % 2 == 0:
         height += 1
+    if width < 3:
+        width = 3
+    if height < 3:
+        height = 3
 
     pixel_map = {}
     nodes = {}
@@ -97,9 +101,3 @@ def generate(width, height, output_file):
     image.putpalette([0, 0, 0, 255, 255, 255])
     image.putdata(data)
     image.save(output_file)
-
-    print("New maze generated as:", output_file)
-
-
-if __name__ == "__main__":
-    generate(25, 25, "mazes/generated/latest.png")
