@@ -5,7 +5,7 @@ from src.node import Node
 import random
 
 
-def generate(width, height, output_file):
+def generate(width, height, output_file, text_area=None):
     if width % 2 == 0:
         width += 1
     if height % 2 == 0:
@@ -101,3 +101,11 @@ def generate(width, height, output_file):
     image.putpalette([0, 0, 0, 255, 255, 255])
     image.putdata(data)
     image.save(output_file)
+
+    if text_area is not None:
+        text_area.config(state='normal')
+        text_area.insert('end', "\nMaze generation complete!\n")
+        text_area.config(state='disabled')
+        text_area.see('end')
+    else:
+        print("Maze generation complete!")

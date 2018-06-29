@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import filedialog
+import threading
 from src.scenes import MainScene, TestScene
 from src import generator, gui_solve
 
@@ -44,7 +45,11 @@ class Application:
             output_file = output_directory + "/" + filename
             if not output_file.endswith((".png", ".bmp")):
                 output_file += ".png"
-            gui_solve.main(text_area, input_file, output_file, paint_visited, print_path)
+
+            self.root.update()
+            thread = threading.Thread(target=gui_solve.main,
+                                      args=(text_area, input_file, output_file, paint_visited, print_path))
+            thread.start()
 
         except UserError as e:
             self.insert_text(text_area, "\n" + e.message)
@@ -79,11 +84,11 @@ class Application:
                              "\n    Filename: " + str(output_file) +
                              "\nPlease wait ..."
                              "\n")
-            text_area.see(END)
-            generator.generate(width, height, output_file)
-            self.insert_text(text_area, "\nMaze generation finished!\n")
-            text_area.see(END)
 
+            self.root.update()
+            thread = threading.Thread(target=generator.generate, args=(width, height, output_file),
+                                      kwargs={"text_area": text_area})
+            thread.start()
         except FileNotFoundError as e:
             message = "\nERROR!: \n{}: {}\n"
             message = message.format(e.strerror, e.filename)
@@ -121,7 +126,7 @@ class Application:
         text_area.see(END)
 
 
-class UserError(Exception):
+class UserError(RuntimeError):
 
     def __init__(self, message):
         super().__init__()
