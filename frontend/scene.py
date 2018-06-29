@@ -28,8 +28,10 @@ class MainScene:
         entry_output_directory_s = Entry(left_frame)
         entry_filename_s = Entry(left_frame)
 
-        entry_width = Entry(left_frame)
-        entry_height = Entry(left_frame)
+        vcmd_integer = (master.register(self.validate_integer),
+                '%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
+        entry_width = Entry(left_frame, validate='key', validatecommand=vcmd_integer)
+        entry_height = Entry(left_frame, validate='key', validatecommand=vcmd_integer)
         entry_output_directory_g = Entry(left_frame)
         entry_filename_g = Entry(left_frame)
 
@@ -41,11 +43,15 @@ class MainScene:
 
         # Console area
         scrollbar_y = Scrollbar(right_frame, orient=VERTICAL)
-        text_area = Text(right_frame, height=25, width=60)
-        scrollbar_y.pack(side=RIGHT, fill=Y)
-        text_area.pack(side=LEFT, fill=Y)
+        text_area = Text(right_frame, height=25, width=80, state='disabled')
         scrollbar_y.config(command=text_area.yview)
         text_area.config(yscrollcommand=scrollbar_y.set)
+        clear_button = Button(right_frame, text="Clear",
+                              command=lambda: controller.clear_text(text_area))
+
+        text_area.pack(side=LEFT, fill=Y)
+        scrollbar_y.pack(side=LEFT, fill=Y)
+        clear_button.pack(side=BOTTOM)
 
         # Buttons
         solve_button = Button(left_frame, text="Solve",
@@ -90,6 +96,18 @@ class MainScene:
         entry_filename_g.grid(row=10, column=1, sticky=E)
         browse_for_output_g.grid(row=9, column=2, sticky=W)
         generate_button.grid(row=11, column=1, sticky=E, columnspan=2)
+
+    def validate_integer(self, action, index, value_if_allowed,
+                         prior_value, text, validation_type, trigger_type, widget_name):
+        if text in '0123456789.-+':
+            try:
+                if not value_if_allowed == "":
+                    int(value_if_allowed)
+                return True
+            except ValueError:
+                return False
+        else:
+            return False
 
 
 class TestScene:

@@ -7,7 +7,7 @@ from tkinter import Text, END
 
 
 def save_image(text_area: Text, image: Image, result: list, output_file: str):
-    text_area.insert(END, "\n\nSaving Image...")
+    insert_text(text_area, "\n\nSaving Image...")
     image = image.convert('RGB')
     image_pixels = image.load()
     result_path = [n.position for n in result]
@@ -38,7 +38,7 @@ def save_image(text_area: Text, image: Image, result: list, output_file: str):
     destination = ""
     for i in range(len(output_tree) - 1):
         destination += output_tree[i] + "/"
-    text_area.insert(END, "\nImage saved in " + destination + " as " + filename)
+    insert_text(text_area, "\nImage saved in " + destination + " as " + filename + "\n")
 
 
 def paint_nodes(image: Image, nodes: list):
@@ -54,20 +54,20 @@ def main(text_area: Text, input_file: str, output_file: str, save_visited_nodes:
     work_state = int()
     try:
         work_state = 0
-        text_area.insert(END, "\nOpening image...")
+        insert_text(text_area, "\nOpening image...")
         image = Image.open(input_file)
 
         work_state = 1
-        text_area.insert(END, "\nAnalyzing image and creating nodes...")
+        insert_text(text_area, "\nAnalyzing image and creating nodes...")
         start_time = time.time()
         maze = Maze(image)
         end_time = time.time()
         total_time = end_time - start_time
-        text_area.insert(END, "\nMaze creation time: {}".format(total_time))
-        text_area.insert(END, "\nNumber of nodes: {}".format(len(maze.nodes)))
+        insert_text(text_area, "\nMaze creation time: {}".format(total_time))
+        insert_text(text_area, "\nNumber of nodes: {}".format(len(maze.nodes)))
 
         work_state = 2
-        text_area.insert(END, "\nSolving...")
+        insert_text(text_area, "\nSolving...")
         start_time = time.time()
         (path, considered_nodes, visited_nodes) = simpleSolver.solve(maze)
         end_time = time.time()
@@ -75,16 +75,16 @@ def main(text_area: Text, input_file: str, output_file: str, save_visited_nodes:
 
         work_state = 3
         if show_path:
-            text_area.insert(END, "\n\nPath:")
+            insert_text(text_area, "\n\nPath:")
             for node in path:
-                text_area.insert(END, "\n{}".format(node.position))
+                insert_text(text_area, "\n{}".format(node.position))
 
-        text_area.insert(END, "\nSolve time: {}".format(total_time))
-        text_area.insert(END, "\n\nVisited nodes: {}".format(len(visited_nodes)))
-        text_area.insert(END, "\nConsidered nodes: {}".format(considered_nodes))
-        text_area.insert(END, "\nPath pixel length: {}".format(int(maze.end.distance_to_start)))
-        text_area.insert(END, "\nPath node length: {}".format(len(path)))
-        text_area.insert(END, "\nDTE Weight: {}".format(Node.weight))
+        insert_text(text_area, "\nSolve time: {}".format(total_time))
+        insert_text(text_area, "\n\nVisited nodes: {}".format(len(visited_nodes)))
+        insert_text(text_area, "\nConsidered nodes: {}".format(considered_nodes))
+        insert_text(text_area, "\nPath pixel length: {}".format(int(maze.end.distance_to_start)))
+        insert_text(text_area, "\nPath node length: {}".format(len(path)))
+        insert_text(text_area, "\nDTE Weight: {}".format(Node.weight))
 
         work_state = 4
         if save_visited_nodes:
@@ -95,27 +95,34 @@ def main(text_area: Text, input_file: str, output_file: str, save_visited_nodes:
 
     except AttributeError:
         if work_state == 1:
-            text_area.insert(END, "\nSomething went wrong when loading the maze to memory."
-                                  "\n   Please make sure maze is of the proper format")
+            raise
+        elif input_file == "":
+            insert_text(text_area, "\nPlease specify input image before attempting solve")
         else:
-            text_area.insert(END, "\nAn AttributeError has been raised unexpectedly... please contact support"
-                                  "\n   work_state = " + str(work_state))
+            insert_text(text_area, "\nAn AttributeError has been raised unexpectedly... please contact support"
+                                   "\n   work_state = " + str(work_state))
 
     except FileNotFoundError:
         if work_state == 0:
-            text_area.insert(END, "\nInput image was not found."
-                                  "\n   Please make sure you have specified the right folder and file")
+            insert_text(text_area, "\nInput image was not found."
+                                   "\n   Please make sure you have specified the right folder and file")
         elif work_state == 5:
-            text_area.insert(END, "\nOutput folder or file was not found"
-                                  "\n   Please make sure you have specified a valid folder and "
-                                  "have given the file the extension .png")
+            insert_text(text_area, "\nOutput folder or file was not found"
+                                   "\n   Please make sure you have specified a valid folder")
         else:
-            text_area.insert(END, "\nA FileNotFoundError was raised unexpectedly... please contact support"
-                                  "\n   work_state = " + str(work_state))
+            insert_text(text_area, "\nA FileNotFoundError was raised unexpectedly... please contact support"
+                                   "\n   work_state = " + str(work_state))
 
     except IndexError:
         if work_state == 2:
-            text_area.insert(END, "\nMaze has no solution")
+            insert_text(text_area, "\nMaze has no solution")
         else:
-            text_area.insert(END, "\nAn unexpected IndexError was raised... please contact support"
-                                  "\n   work_state = " + str(work_state))
+            insert_text(text_area, "\nAn unexpected IndexError was raised... please contact support"
+                                   "\n   work_state = " + str(work_state))
+
+
+def insert_text(text_area: Text, message: str):
+    text_area.config(state='normal')
+    text_area.insert(END, message)
+    text_area.see(END)
+    text_area.config(state='disabled')
