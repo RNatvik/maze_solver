@@ -89,10 +89,6 @@ class Application:
             thread = threading.Thread(target=generator.generate, args=(width, height, output_file),
                                       kwargs={"text_area": text_area})
             thread.start()
-        except FileNotFoundError as e:
-            message = "\nERROR!: \n{}: {}\n"
-            message = message.format(e.strerror, e.filename)
-            self.insert_text(text_area, message)
 
         except UserError as e:
             self.insert_text(text_area, "\n" + e.message)
