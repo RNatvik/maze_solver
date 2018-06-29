@@ -1,8 +1,8 @@
 from tkinter import *
 from tkinter import filedialog
-from frontend.scene import MainScene, TestScene
+from scenes import MainScene, TestScene
 import generator
-import solver
+import gui_solve
 
 
 class Application:
@@ -45,7 +45,7 @@ class Application:
             output_file = output_directory + "/" + filename
             if not output_file.endswith((".png", ".bmp")):
                 output_file += ".png"
-            solver.main(text_area, input_file, output_file, paint_visited, print_path)
+            gui_solve.main(text_area, input_file, output_file, paint_visited, print_path)
 
         except UserError as e:
             self.insert_text(text_area, "\n" + e.message)
