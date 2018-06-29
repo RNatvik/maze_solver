@@ -95,7 +95,8 @@ def main(text_area: Text, input_file: str, output_file: str, save_visited_nodes:
 
     except AttributeError:
         if work_state == 1:
-            raise
+            insert_text(text_area, "\nSomething went wrong when loading the maze to memory."
+                                   "\n   Please make sure maze is of the proper format")
         elif input_file == "":
             insert_text(text_area, "\nPlease specify input image before attempting solve")
         else:
