@@ -54,7 +54,8 @@ class Application:
         except UserError as e:
             self.insert_text(text_area, "\n" + e.message)
 
-    def generate(self, text_area: Text, width: Entry, height: Entry, output_directory: Entry, filename: Entry):
+    def generate(self, text_area: Text, width: Entry, height: Entry, output_directory: Entry, filename: Entry,
+                 method: StringVar):
         try:
             output_directory = output_directory.get()
             filename = filename.get()
@@ -87,7 +88,7 @@ class Application:
 
             self.root.update()
             thread = threading.Thread(target=generator.factory, args=(width, height, output_file),
-                                      kwargs={"method": 'braid', "text_area": text_area})
+                                      kwargs={"method": method.get(), "text_area": text_area})
             thread.start()
 
         except UserError as e:

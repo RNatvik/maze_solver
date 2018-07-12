@@ -22,6 +22,7 @@ class MainScene:
         label_height = Label(left_frame, text="Height:")
         label_output_directory_g = Label(left_frame, text="Output Folder:")
         label_filename_g = Label(left_frame, text="Filename:")
+        label_method = Label(left_frame, text="Method:")
 
         # Entries
         entry_input_file = Entry(left_frame)
@@ -29,11 +30,17 @@ class MainScene:
         entry_filename_s = Entry(left_frame)
 
         vcmd_integer = (master.register(self.validate_integer),
-                '%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
+                        '%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
+
         entry_width = Entry(left_frame, validate='key', validatecommand=vcmd_integer)
         entry_height = Entry(left_frame, validate='key', validatecommand=vcmd_integer)
         entry_output_directory_g = Entry(left_frame)
         entry_filename_g = Entry(left_frame)
+
+        method_var = StringVar()
+        method_var.set("braid")  # default value
+
+        menu_method = OptionMenu(left_frame, method_var, "braid", "perfect")
 
         # Check boxes
         print_path_var = IntVar()
@@ -60,7 +67,8 @@ class MainScene:
 
         generate_button = Button(left_frame, text="Generate",
                                  command=lambda: controller.generate(text_area, entry_width, entry_height,
-                                                                     entry_output_directory_g, entry_filename_g))
+                                                                     entry_output_directory_g, entry_filename_g,
+                                                                     method_var))
 
         browse_for_input = Button(left_frame, text="...", font=('Tahoma', 8),
                                   command=lambda: controller.browse_file(entry_input_file))
@@ -90,10 +98,12 @@ class MainScene:
         label_height.grid(row=8, column=0, sticky=E)
         label_output_directory_g.grid(row=9, column=0, sticky=E)
         label_filename_g.grid(row=10, column=0, sticky=E)
+        label_method.grid(row=11, column=0, sticky=E)
         entry_width.grid(row=7, column=1, sticky=E)
         entry_height.grid(row=8, column=1, sticky=E)
         entry_output_directory_g.grid(row=9, column=1, sticky=E)
         entry_filename_g.grid(row=10, column=1, sticky=E)
+        menu_method.grid(row=11, column=1, sticky=W)
         browse_for_output_g.grid(row=9, column=2, sticky=W)
         generate_button.grid(row=11, column=1, sticky=E, columnspan=2)
 
