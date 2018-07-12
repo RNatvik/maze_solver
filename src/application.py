@@ -86,8 +86,8 @@ class Application:
                              "\n")
 
             self.root.update()
-            thread = threading.Thread(target=generator.generate, args=(width, height, output_file),
-                                      kwargs={"text_area": text_area})
+            thread = threading.Thread(target=generator.factory, args=(width, height, output_file),
+                                      kwargs={"method": 'braid', "text_area": text_area})
             thread.start()
 
         except UserError as e:
