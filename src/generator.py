@@ -2,6 +2,7 @@ from PIL import Image
 from src.node import Node
 import random
 import time
+import math
 
 
 def factory(width, height, ouput_file, method='perfect', text_area=None):
@@ -199,6 +200,7 @@ def braid(width, height, output_file):
     previous_nodes = []
     banned_node = None
     ignore_visited = False
+    ignore_chance = int(math.sqrt((width + height) / 2) * 1)
     stat_ignored = 0
 
     while len(visited_nodes) != len(nodes):
@@ -233,7 +235,7 @@ def braid(width, height, output_file):
         else:
             next_node = previous_nodes.pop(-1)
 
-            ignore_value = random.randint(0, 65)
+            ignore_value = random.randint(0, ignore_chance)
             if ignore_value == 0:
                 stat_ignored += 1
                 ignore_visited = True
