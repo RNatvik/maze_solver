@@ -40,7 +40,7 @@ class MainScene:
         method_var = StringVar()
         method_var.set("braid")  # default value
 
-        menu_method = OptionMenu(left_frame, method_var, "braid", "perfect")
+        menu_method = OptionMenu(left_frame, method_var, "braid", "perfect", "branch")
 
         # Check boxes
         print_path_var = IntVar()
