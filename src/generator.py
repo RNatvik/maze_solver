@@ -156,10 +156,10 @@ def branching(width, height, output_file):
 
     for x in range(width):
         pixel_map[(x, 0)] = 0
-        pixel_map[(x, height)] = 0
+        pixel_map[(x, height - 1)] = 0
     for y in range(height):
         pixel_map[(0, y)] = 0
-        pixel_map[(width, y)] = 0
+        pixel_map[(width - 1, y)] = 0
     pixel_map[start.position] = 1
     pixel_map[end.position] = 1
 
