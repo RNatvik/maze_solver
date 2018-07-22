@@ -1,4 +1,5 @@
 from src.node import Node
+from src.decorators import timed
 
 
 class Maze:
