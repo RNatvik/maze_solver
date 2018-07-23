@@ -38,7 +38,7 @@ class MainScene:
         entry_filename_g = Entry(left_frame)
 
         method_var = StringVar()
-        method_var.set("braid")  # default value
+        method_var.set("branch")  # default value
 
         menu_method = OptionMenu(left_frame, method_var, "braid", "perfect", "branch")
 
