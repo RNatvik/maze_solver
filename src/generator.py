@@ -1,10 +1,10 @@
 from PIL import Image
-from src.node import Node
+from src.maze import Node
 import random
 import math
 from src.maze import Maze
-from src.simpleSolver import solve
-from src.decorators import timed
+from src.solver import solve_maze
+from time import time
 
 
 def factory(width, height, output_file, method='perfect', text_area=None):
@@ -53,6 +53,16 @@ def factory(width, height, output_file, method='perfect', text_area=None):
             message = "\nERROR!: \n{}: {}\n"
             message = message.format(e.strerror, e.filename)
             print(message)
+
+
+def timed(func):
+    def timed_method(*args, **kwargs):
+        start_time = time()
+        func(*args, **kwargs)
+        end_time = time()
+        total_time = end_time - start_time
+        return total_time
+    return timed_method
 
 
 @timed
@@ -136,7 +146,7 @@ def branching(width, height, output_file):
 
     # Solve maze to find solution path and later remove random wall nodes along the path
     maze = Maze(image)
-    (path, considered_nodes, visited_nodes) = solve(maze)
+    (path, considered_nodes, visited_nodes) = solve_maze(maze)
 
     for node in path:
         if node is not start and node is not end:
