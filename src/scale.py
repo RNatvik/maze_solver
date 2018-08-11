@@ -3,7 +3,7 @@ from PIL import Image
 
 def scale_up(input_file: str, output_file: str, scale: int):
     try:
-        if scale < 0:
+        if scale >= 1:
             image = Image.open(input_file)
 
             width = image.size[0]
@@ -31,13 +31,8 @@ def scale_up(input_file: str, output_file: str, scale: int):
         else:
             raise ValueError
     except FileNotFoundError as e:
-        print("File not found")
+        print("Error: File not found")
     except ValueError as e:
-        print("Scale < 0")
+        print("Error: Scale < 1")
     except TypeError as e:
-        print("Scale must be a whole number")
-
-
-if __name__ == '__main__':
-    scale_up('C:/Users/Ruben/Desktop/test/maze_solver/mazes/scale_test_before.png',
-             'C:/Users/Ruben/Desktop/test/maze_solver/mazes/scale_test_after.png', 0)
+        print("Error: Scale must be a whole number")
